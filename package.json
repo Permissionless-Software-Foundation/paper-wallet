@@ -1,0 +1,25 @@
+{
+  "name": "paper-wallet",
+  "version": "1.0.0",
+  "description": "This repository contains a simple single page app for generating a paper wallet. The paper wallet can be used to store Bitcoin Cash (BCH) or SLP tokens. They can later be retrieved from the paper wallet with [wallet.FullStack.cash](https://wallet.fullstack.cash).",
+  "main": "publish.js",
+  "scripts": {
+    "test": "echo no test yet",
+    "pub": "node publish.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Permissionless-Software-Foundation/paper-wallet.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Permissionless-Software-Foundation/paper-wallet/issues"
+  },
+  "homepage": "https://github.com/Permissionless-Software-Foundation/paper-wallet#readme",
+  "dependencies": {
+    "bch-message-lib": "^2.1.2",
+    "minimal-slp-wallet": "^4.4.1",
+    "web3.storage": "^3.5.4"
+  }
+}
