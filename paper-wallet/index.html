@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+
+<!--
+  This HTML page generates a paper wallet for BCH and SLP tokens.
+-->
+
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Paper Wallet</title>
+    <link rel="icon favicon" href="favicon.ico" />
+  </head>
+
+  <body>
+    <h1>Paper Wallet</h1>
+    <p>
+      This web app generates a 'paper wallet' for Bitcoin Cash and SLP tokens.
+      This type of wallet contains a single private key and public address. The
+      public address is generated in two different formats: One for traditional
+      BCH wallets, and one for token-aware wallets that use <i>simpleledger</i>
+      address format.
+    </p>
+  </body>
+
+  <div style="padding: 20px;"></div>
+
+  <table style="border: 1px solid black;">
+    <tr>
+      <td>
+        <div style="width: 300px;">
+          <div id="slpaddr-qr" style="padding: 10px;"></div>
+        </div>
+      </td>
+      <td style="padding: 5px;">
+        <p><b>SLP Token Address</b></p>
+        <p id="slpaddr-text">simpleledger:xxxxx</p>
+      </td>
+    </tr>
+  </table>
+
+  <div style="padding: 20px;"></div>
+
+  <table style="border: 1px solid black;">
+    <tr>
+      <td>
+        <p><b>Cash Address</b></p>
+        <p id="cashaddr-text">bitcoincash:xxxxx</p>
+      </td>
+      <td style="padding: 5px;">
+        <div style="width: 300px;">
+          <div id="cashaddr-qr" style="padding: 10px;"></div>
+        </div>
+      </td>
+    </tr>
+  </table>
+
+  <div style="padding: 20px;"></div>
+
+  <table style="border: 1px solid black;">
+    <tr>
+      <td>
+        <div style="width: 300px;">
+          <div id="priv-key-qr" style="padding: 10px;"></div>
+        </div>
+      </td>
+      <td style="padding: 5px;">
+        <p><b>Private Key</b></p>
+        <p id="priv-key-text">LXXXXX</p>
+      </td>
+    </tr>
+  </table>
+
+  <div style="padding: 20px;"></div>
+
+  <h2>How to use:</h2>
+  <p>
+    Print out this web page on your printer.
+  </p>
+  <p>
+    Bitcoin Cash can be stored on this paper wallet by sending it to the
+    <i>bitcoincash:</i> address.
+  </p>
+  <p>
+    SLP tokens can be stored on this paper wallet by sending them to the
+    <i>simpleledger:</i> address.
+    <b>Only store one one type of token per paper wallet.</b> This reduces the
+    chance of tokens being burned when retrieving them from the paper wallet.
+    e.g. Store SPICE token on one wallet, and generate a new paper wallet to
+    store your USDH.
+  </p>
+  <p>
+    The <i>private key</i> should be kept secret. Anyone who takes a picture of
+    that QR code can take your money. Hide it. Keep it secret. This is how you
+    get your money off the paper wallet.
+  </p>
+  <p>
+    You can retrieve your BCH or SLP tokens by 'Sweeping' the private key with
+    <a href="https://wallet.fullstack.cash" target="_blank"
+      >wallet.FullStack.cash</a
+    >. There are no other wallets with the ability to sweep SLP tokens from the
+    paper wallet.
+  </p>
+
+  <p>
+    The source code for this paper wallet generater is available on the
+    <a
+      href="https://github.com/Permissionless-Software-Foundation/paper-wallet"
+      target="_blank"
+      >PSF GitHub repository</a
+    >. We encourage people to run this code for themselves and audit the source
+    code. This app is also uploaded to the
+    <a href="https://web3.storage" target="_blank">Filecoin blockchain</a>. You
+    can interact with the latest version by going to
+    <a href="https://paperwallet.fullstack.cash" target="_blank"
+      >paperwallet.fullstack.cash</a
+    >.
+  </p>
+
+  <script src="https://unpkg.com/minimal-slp-wallet"></script>
+  <script src="https://cdn.rawgit.com/davidshimjs/qrcodejs/gh-pages/qrcode.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", async () => {
+      try {
+        console.log("Generating paper wallet...");
+
+        // Generate a new wallet.
+        const wallet = new SlpWallet(undefined, {
+          noUpdate: true,
+          interface: "consumer-api"
+        });
+        await wallet.walletInfoPromise;
+
+        const bchjs = wallet.bchjs;
+
+        // console.log(
+        //   `walletInfo: ${JSON.stringify(wallet.walletInfo, null, 2)}`
+        // );
+
+        // Capture and display the private key.
+        const privKeyText = document.getElementById("priv-key-text");
+        privKeyText.innerHTML = `${wallet.walletInfo.privateKey}`;
+        new QRCode(document.getElementById("priv-key-qr"), {
+          text: wallet.walletInfo.privateKey,
+          width: 250,
+          height: 250,
+          colorDark: "#000000",
+          colorLight: "#ffffff"
+        });
+
+        // Capture and display the BCH address
+        const cashaddrText = document.getElementById("cashaddr-text");
+        cashaddrText.innerHTML = `${wallet.walletInfo.cashAddress}`;
+        new QRCode(document.getElementById("cashaddr-qr"), {
+          text: wallet.walletInfo.cashAddress,
+          width: 250,
+          height: 250,
+          colorDark: "#000000",
+          colorLight: "#ffffff"
+        });
+
+        // Capture and display the SLP address
+        const slpaddrText = document.getElementById("slpaddr-text");
+        slpaddrText.innerHTML = `${wallet.walletInfo.slpAddress}`;
+        new QRCode(document.getElementById("slpaddr-qr"), {
+          text: wallet.walletInfo.slpAddress,
+          width: 250,
+          height: 250,
+          colorDark: "#000000",
+          colorLight: "#ffffff"
+        });
+
+        console.log("Done.");
+      } catch (err) {
+        console.error("Error in web app: ", err);
+      }
+    });
+  </script>
+</html>
