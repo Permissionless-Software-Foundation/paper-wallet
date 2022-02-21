@@ -61,14 +61,10 @@
           const hash = thisMsg.subject;
           const sender = thisMsg.sender;
 
-          // Hack to get around changes to bch-message-lib
-          let hash2 = hash.split(" ");
-          hash2 = hash2[1];
-
           if (sender === bchAddr) {
             if (hash.includes("bafy")) {
-              console.log(`hash: ${hash2}`);
-              targetHash = hash2;
+              console.log(`hash: ${hash}`);
+              targetHash = hash;
               break;
             }
           }
