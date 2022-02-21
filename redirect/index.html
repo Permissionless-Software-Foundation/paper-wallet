@@ -73,7 +73,8 @@
           }
         }
 
-        const url = `https://${targetHash}.ipfs.dweb.link/`;
+        // const url = `https://${targetHash}.ipfs.dweb.link/`;
+        const url = `https://cloudflare-ipfs.com/ipfs/${targetHash}`;
         console.log(`Redirecting to: ${url}`);
 
         const statusDOM = document.getElementById("bchStatus");
