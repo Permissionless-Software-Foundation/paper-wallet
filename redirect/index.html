@@ -38,7 +38,10 @@
       try {
         console.log("hello world");
 
-        const wallet = new SlpWallet(undefined, { noUpdate: true });
+        const wallet = new SlpWallet(undefined, {
+          noUpdate: true,
+          interface: "consumer-api"
+        });
         await wallet.walletInfoPromise;
         console.log("wallet info: ", wallet.walletInfo);
         // console.log("BchMessage: ", BchMessage);
