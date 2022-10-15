@@ -30,8 +30,8 @@
     <p></p>
   </body>
 
-  <script src="https://unpkg.com/minimal-slp-wallet"></script>
-  <script src="https://unpkg.com/bch-message-lib"></script>
+  <script src="https://unpkg.com/minimal-slp-wallet@5.2.1"></script>
+  <script src="https://unpkg.com/bch-message-lib@2.2.1"></script>
 
   <script>
     document.addEventListener("DOMContentLoaded", async () => {
@@ -43,6 +43,7 @@
           interface: "consumer-api"
         });
         await wallet.walletInfoPromise;
+        await wallet.initialize();
         // console.log("wallet info: ", wallet.walletInfo);
         // console.log("BchMessage: ", BchMessage);
 
